@@ -95,7 +95,7 @@ router.get('/download/:fileName', (req, res) => {
 
 router.get('/workflow/:type/:identifier', (req: RequestWithTheme, res) => {
     const workflowType = req.params.type;
-    const workflowIdentifier = req.params.identifier;
+    const workflowIdentifier = decodeURIComponent(req.params.identifier);
 
     if (workflowType !== 'local' && workflowType !== 'server') {
         res.status(400).send('Invalid workflow type');
