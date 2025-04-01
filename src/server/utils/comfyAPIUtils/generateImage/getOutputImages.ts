@@ -11,7 +11,12 @@ async function getOutputImages(promptId: string) {
 
     const history = await getHistory(promptId);
 
-    const historyOutputs = history[promptId].outputs;
+    const historyOutputs = history[promptId]?.outputs;
+
+    if (!historyOutputs) {
+        // No images found in the output. Error?
+        return outputImages;
+    }
 
     for (const nodeId in historyOutputs) {
         const nodeOutput = historyOutputs[nodeId];
