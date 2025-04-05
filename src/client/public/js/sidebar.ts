@@ -1,3 +1,4 @@
+import getQueueCount from './modules/getQueueCount.js';
 import getAllWorkflowsInfo from './modules/getWorkflows.js';
 
 const elements = {
@@ -7,6 +8,7 @@ const elements = {
     dropdownList: document.querySelector('.sidebar-dropdown-list') as HTMLElement,
     dropdownArrow: document.querySelector('.dropdown-arrow') as HTMLElement,
     toggleButton: document.getElementById('sidebar-toggle') as HTMLElement,
+    queueButtonItem: document.getElementById('sidebar-queue-button') as HTMLElement,
 };
 
 elements.toggleButton.addEventListener('click', () => openSidebar());
@@ -57,6 +59,7 @@ function openSidebar() {
 
         elements.sidebar.removeEventListener('transitionend', handle);
     });
+    loadQueueIntoSidebar();
 }
 
 async function loadWorkflowsIntoSidebar() {
@@ -73,6 +76,14 @@ async function loadWorkflowsIntoSidebar() {
     }
 
     elements.dropdownList.innerHTML = html;
+}
+
+async function loadQueueIntoSidebar() {
+    let html = 'Queue: ';
+
+    const queueCount = await getQueueCount();
+    html = `Queue: ${queueCount}`;
+    elements.queueButtonItem.innerHTML = html;
 }
 
 loadWorkflowsIntoSidebar();

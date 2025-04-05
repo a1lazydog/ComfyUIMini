@@ -11,6 +11,8 @@ import { getGalleryPageData } from '../utils/galleryUtils';
 import { RequestWithTheme } from '@shared/types/Requests';
 import loadAndRenderWorkflow from 'server/utils/loadAndRenderWorkflow';
 
+import { getQueue, getHistory } from 'server/utils/comfyAPIUtils';
+
 const router = express.Router();
 
 router.use(cookieParser());
@@ -131,6 +133,20 @@ router.get('/allserverworkflows', async (req, res) => {
     });
 
     res.json(infoList);
+});
+
+
+// Testing
+router.get('/history', async (req, res) => {
+    console.log(req.query['max_items']);
+    const history = await getHistory();
+    res.json(history);
+});
+
+router.get('/queue_count', async (req, res) => {
+    const queueJson = await getQueue();
+    const size = queueJson['queue_running'].length + queueJson['queue_pending'].length;
+    res.json(size);
 });
 
 export default router;

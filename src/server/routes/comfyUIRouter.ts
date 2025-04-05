@@ -12,11 +12,6 @@ router.use(express.urlencoded({ extended: true }));
 
 router.get('/history/:promptId', async (req, res) => {
     const promptId = req.params.promptId;
-
-    if (!promptId) {
-        res.send('Prompt id cannot be undefined').status(400);
-    }
-
     const promptHistory = getHistory(promptId);
 
     res.json(promptHistory);
